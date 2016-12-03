@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Movie;
+use App\Show;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,8 +10,8 @@ class Hall extends Model
 {
     protected $fillable = ['title', 'seats'];
 
-    public function movies()
+    public function shows()
     {
-    	return $this->belongsToMany(Movie::class)->withTimestamps();;
+    	return $this->belongsToMany(Show::class)->withTimestamps();;
     }
 }

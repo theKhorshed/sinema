@@ -20,6 +20,6 @@
 
 <div class="form-group">
 	{!! Form::label('halls', 'Halls to be showed:') !!}
-	{!! Form::select('halls[]', $halls, ['class' => 'form-control'], ['multiple' => true]); !!}
+	{!! Form::select('halls[]', $halls, null, ['class' => 'form-control', 'multiple' => true]); !!}
 	{!! showMessageIfError($errors, 'halls') !!}
 </div>

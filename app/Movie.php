@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Hall;
+use App\ShowOnHall;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,6 +12,6 @@ class Movie extends Model
 
     public function halls()
     {
-    	return $this->belongsToMany('App\Hall')->withTimestamps();;
+    	return $this->hasMany(ShowOnHall::class);
     }
 }

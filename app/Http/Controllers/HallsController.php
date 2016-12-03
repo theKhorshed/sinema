@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Hall;
 
+use App\Show;
+
 
 class HallsController extends Controller
 {
@@ -43,7 +45,12 @@ class HallsController extends Controller
             'seats' => 'required'
         ]);
 
-        Hall::create($request->all());
+        $hall  = Hall::create($request->all());
+        $shows = Show::pluck('id');
+
+        foreach ($shows as $show) {
+            $hall->shows()->attach($show);
+        }
 
         return redirect()->route('halls.index');
     }
@@ -56,6 +63,8 @@ class HallsController extends Controller
      */
     public function show(Hall $hall)
     {
+        $hall->load('shows');
+        return $hall;
         return view('halls.single', compact('hall'));
     }
 

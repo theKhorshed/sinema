@@ -17,7 +17,7 @@ class MoviesController extends Controller
      */
     public function index()
     {
-        $movies = Movie::with('halls')->get();
+        $movies = Movie::all();
         return view('movies.index', compact('movies'));
     }
 
@@ -60,6 +60,8 @@ class MoviesController extends Controller
      */
     public function show(Movie $movie)
     {
+        $movie->load('halls');
+
         return view('movies.single', compact('movie'));
     }
 
@@ -71,6 +73,7 @@ class MoviesController extends Controller
      */
     public function edit(Movie $movie)
     {
+        $movie->load('halls');
         $halls = Hall::pluck('title', 'id');
 
         return view('movies.edit', compact('movie', 'halls'));

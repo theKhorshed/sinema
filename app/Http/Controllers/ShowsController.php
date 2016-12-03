@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Show;
 
+use App\Hall;
+
 class ShowsController extends Controller
 {
     /**
@@ -43,7 +45,13 @@ class ShowsController extends Controller
             'time'  => 'required',
         ]);
 
-        Show::create($request->all());
+        $show  = Show::create($request->all());
+        $halls = Hall::pluck('id');
+
+        foreach ($halls as $hall) {
+            $show->halls()->attach($hall);
+        }
+
 
         return redirect()->route('shows.index');
     }
@@ -56,6 +64,8 @@ class ShowsController extends Controller
      */
     public function show(Show $show)
     {
+        $show->load('halls');
+        return $show;
         return view('shows.single', compact('show'));
     }
 
