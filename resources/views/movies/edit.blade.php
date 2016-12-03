@@ -6,7 +6,7 @@
 @section('content')
 	<h2>Edit Movie: </h2>
 
-	{!! Form::model($movie, ['route' => ['movies.update', $movie->id], 'method' => 'PUT']) !!}
+	{!! Form::model($movie, ['route' => ['movies.update', $movie->id], 'method' => 'PATCH']) !!}
 
 		
 		@include('partials.movie-form')

@@ -23,5 +23,7 @@ Route::get('/home', 'HomeController@index');
 Route::group(['prefix' => 'admin'], function () {
     
     Route::resource('movies', 'MoviesController');
+    Route::resource('halls', 'HallsController');
+    Route::resource('shows', 'ShowsController');
 
 });

@@ -20,6 +20,8 @@
             <!-- Left Side Of Navbar -->
             <ul class="nav navbar-nav">
                 <li><a href="{{ route('movies.index') }}">Movies</a></li>
+                <li><a href="{{ route('shows.index') }}">Shows</a></li>
+                <li><a href="{{ route('halls.index') }}">Halls</a></li>
             </ul>
 
             <!-- Right Side Of Navbar -->
