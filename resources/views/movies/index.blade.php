@@ -17,5 +17,7 @@
 		@endforeach
 	</ul>
 
-	@endif;
+	@endif
+
+	<a href="{{ route('movies.create') }}" class="btn btn-lg btn-default">Add Movie</a>
 @stop
