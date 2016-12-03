@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('title', 'Add Movie')
+
+
 @section('content')
 	<h2>Add new Movie: </h2>
 
