@@ -17,3 +17,9 @@
 	{!! Form::textarea('description', null, ['class' => 'form-control']); !!}
 	{!! showMessageIfError($errors, 'description') !!}
 </div>
+
+<div class="form-group">
+	{!! Form::label('halls', 'Halls to be showed:') !!}
+	{!! Form::select('halls[]', $halls, ['class' => 'form-control'], ['multiple' => true]); !!}
+	{!! showMessageIfError($errors, 'halls') !!}
+</div>

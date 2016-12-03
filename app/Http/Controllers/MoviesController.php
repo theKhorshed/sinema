@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Movie;
 
+use App\Hall;
+
 class MoviesController extends Controller
 {
     /**
@@ -15,7 +17,7 @@ class MoviesController extends Controller
      */
     public function index()
     {
-        $movies = Movie::all();
+        $movies = Movie::with('halls')->get();
         return view('movies.index', compact('movies'));
     }
 
@@ -26,7 +28,8 @@ class MoviesController extends Controller
      */
     public function create()
     {
-        return view('movies.create');
+        $halls = Hall::pluck('title', 'id');
+        return view('movies.create', compact('halls'));
     }
 
     /**
@@ -68,7 +71,9 @@ class MoviesController extends Controller
      */
     public function edit(Movie $movie)
     {
-        return view('movies.edit', compact('movie'));
+        $halls = Hall::pluck('title', 'id');
+
+        return view('movies.edit', compact('movie', 'halls'));
     }
 
     /**
@@ -87,6 +92,9 @@ class MoviesController extends Controller
         ]);
         
         $movie->update($request->all());
+
+        $movie->halls()->detach();
+        $movie->halls()->attach( $request->input('halls') );
 
         return back();
     }
