@@ -16,7 +16,8 @@ class PagesController extends Controller
 		$movies   = Movie::all();
 		$shows    = Show::all();
 		$halls    = Hall::all();
-		$allShows = ShowOnHall::with('movie', 'hall', 'show')->get();
+		$allShows = ShowOnHall::with('hall', 'show')->get();
+
 
     	return view('dashboard', compact('movies', 'shows', 'halls', 'allShows'));
     }

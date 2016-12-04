@@ -21,9 +21,15 @@
                 <td>
                     {{ $movie->director_name }}
                 </td>
-                <td>
+                <td class="edit-delete">
                     <a class="btn btn-primary" href="{{ route('movies.edit', ['movie' => $movie->id]) }}">Edit</a>
-                    <a class="btn btn-danger" href="{{ route('movies.destroy', ['movie' => $movie->id]) }}">Delete</a>
+
+                    {!! Form::open(['route' => ['movies.update', $movie->id], 'method' => 'DELETE']) !!}
+
+                        {!! Form::submit('Delete', ['class' => 'btn btn-danger']); !!}
+
+
+                    {!! Form::close() !!}
                 </td>
             </tr>
         @endforeach

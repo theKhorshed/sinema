@@ -24,7 +24,7 @@
     @else
 
         <tr>
-            <td colspan="3"><h4>No movie!</h4></td>
+            <td colspan="3"><h4>Nothing to show!</h4></td>
         </tr>
 
     @endif

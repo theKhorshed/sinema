@@ -106,6 +106,8 @@ class ShowsController extends Controller
      */
     public function destroy(Show $show)
     {
-        //
+        $show->delete();
+
+        return back();
     }
 }

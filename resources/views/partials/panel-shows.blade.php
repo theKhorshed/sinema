@@ -23,7 +23,12 @@
                 </td>
                 <td>
                     <a class="btn btn-primary" href="{{ route('shows.edit', ['show' => $show->id]) }}">Edit</a>
-                    <a class="btn btn-danger" href="{{ route('shows.destroy', ['show' => $show->id]) }}">Delete</a>
+                    {!! Form::open(['route' => ['shows.destroy', $show->id], 'method' => 'DELETE']) !!}
+
+                        {!! Form::submit('Delete', ['class' => 'btn btn-danger']); !!}
+
+
+                    {!! Form::close() !!}
                 </td>
             </tr>
         @endforeach

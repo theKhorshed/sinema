@@ -105,6 +105,8 @@ class HallsController extends Controller
      */
     public function destroy(Hall $hall)
     {
-        //
+        $hall->delete();
+
+        return back();
     }
 }
