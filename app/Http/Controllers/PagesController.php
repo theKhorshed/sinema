@@ -11,6 +11,46 @@ use App\Hall;
 
 class PagesController extends Controller
 {
+	/**
+	 * Homepage
+	 *
+	 * @return void
+	 * @author Khorshed Alam
+	 **/
+	public function home()
+	{
+		return view('home');
+	}
+
+	/**
+	 * Show Time Page
+	 *
+	 * @return void
+	 * @author Khorshed Alam
+	 **/
+	public function showTimes()
+	{
+		$movies = Movie::with('showedOn.show')->get();
+		return view('showtime', compact('movies'));
+	}
+
+	/**
+	 * Buy Ticket Page
+	 *
+	 * @return void
+	 * @author Khorshed Alam
+	 **/
+	public function ticket()
+	{
+		return view('ticket');
+	}
+
+	/**
+	 * Dashboard Page
+	 *
+	 * @return void
+	 * @author 
+	 **/
     public function dashboard()
     {
 		$movies   = Movie::all();

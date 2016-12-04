@@ -19,6 +19,9 @@
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <!-- Left Side Of Navbar -->
             <ul class="nav navbar-nav">
+                <li><a href="{{ route('showtimes') }}">Show Times</a></li>
+                <li><a href="{{ route('ticket') }}">Buy Ticket</a></li>
+                <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
                 <li><a href="{{ route('movies.index') }}">Movies</a></li>
                 <li><a href="{{ route('shows.index') }}">Shows</a></li>
                 <li><a href="{{ route('halls.index') }}">Halls</a></li>

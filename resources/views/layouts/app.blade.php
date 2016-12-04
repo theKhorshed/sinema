@@ -29,6 +29,12 @@
         </div>
     </div>
 
+    <footer class="container-fluid site-footer">
+        <div class="container">
+            <p class="text-left">{{ config('app.name', 'Laravel') }} {{date('Y')}} &copy; All Rights Reserved.</p>
+        </div>
+    </footer>
+
     <!-- Scripts -->
     <script src="/js/app.js"></script>
 </body>

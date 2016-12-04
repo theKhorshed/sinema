@@ -11,19 +11,16 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'PagesController@home')->name('home');
+Route::get('showtimes', 'PagesController@showTimes')->name('showtimes');
+Route::get('ticket', 'PagesController@ticket')->name('ticket');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
-
-
 Route::group(['prefix' => 'admin'], function () {
 	
-	Route::get('/', 'PagesController@dashboard');
-	Route::get('dashboard', 'PagesController@dashboard');
+	Route::get('/', 'PagesController@dashboard')->name('dashboard');
+	Route::get('dashboard', 'PagesController@dashboard')->name('dashboard');
     
     Route::resource('movies', 'MoviesController');
     Route::resource('halls', 'HallsController');
