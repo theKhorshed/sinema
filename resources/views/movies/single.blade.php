@@ -13,8 +13,8 @@
 	<h4> Halls: </h4>
 
 	<ul class="list-unstyled">
-		@foreach( $movie->halls as $hall )
-			<li>{{ $hall->title }}</li>
+		@foreach( $movie->showedOn as $showItem )
+			<li>{{ $showItem->hall->title }} - {{ $showItem->show->title }} {{ $showItem->show->time }}</li>
 		@endforeach
 	</ul>
 

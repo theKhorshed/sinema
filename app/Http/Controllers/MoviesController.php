@@ -8,6 +8,8 @@ use App\Movie;
 
 use App\Hall;
 
+use App\ShowOnHall;
+
 class MoviesController extends Controller
 {
     /**
@@ -28,8 +30,19 @@ class MoviesController extends Controller
      */
     public function create()
     {
-        $halls = Hall::pluck('title', 'id');
-        return view('movies.create', compact('halls'));
+        $ShowsOnHalls = ShowOnHall::available()->with('show', 'hall', 'movie')->get();
+
+        $ShowsOnHalls = $ShowsOnHalls->map(function ($item, $key) {
+            return [ 
+                'id'       => $item->id,
+                'title'    => $item->hall->title . ' - ' . $item->show->title,
+                'time'     => $item->show->time,
+                'movie_id' => $item->movie_id,
+                'checked'  => ''
+            ];
+        });
+
+        return view('movies.create', compact('ShowsOnHalls'));
     }
 
     /**
@@ -46,7 +59,13 @@ class MoviesController extends Controller
             'director_name' => 'required',
         ]);
 
-        Movie::create( $request->all() );
+        $movie     = Movie::create( $request->all() );
+        $showed_on = $request->input('showed_on');
+
+        foreach ($showed_on as $showed) {
+
+            $movie->showedOn()->save(ShowOnHall::findOrFail($showed));
+        }
 
         return redirect()->route('movies.index');
 
@@ -60,7 +79,7 @@ class MoviesController extends Controller
      */
     public function show(Movie $movie)
     {
-        $movie->load('halls');
+        $movie->load('showedOn', 'showedOn.hall', 'showedOn.show');
 
         return view('movies.single', compact('movie'));
     }
@@ -73,10 +92,20 @@ class MoviesController extends Controller
      */
     public function edit(Movie $movie)
     {
-        $movie->load('halls');
-        $halls = Hall::pluck('title', 'id');
+        $movie->load('showedOn');
+        $ShowsOnHalls = ShowOnHall::availableForMovie( $movie->id )->with('show', 'hall', 'movie')->get();
 
-        return view('movies.edit', compact('movie', 'halls'));
+        $ShowsOnHalls = $ShowsOnHalls->map(function ($item, $key) {
+            return [ 
+                'id'       => $item->id,
+                'title'    => $item->hall->title . ' - ' . $item->show->title,
+                'time'     => $item->show->time,
+                'movie_id' => $item->movie_id,
+                'checked'  => $item->movie_id ? 'checked' : ''
+            ];
+        });
+
+        return view('movies.edit', compact('movie', 'ShowsOnHalls'));
     }
 
     /**
@@ -96,9 +125,26 @@ class MoviesController extends Controller
         
         $movie->update($request->all());
 
-        $movie->halls()->detach();
-        $movie->halls()->attach( $request->input('halls') );
+        $showed_on = $request->input('showed_on');
 
+        $ShowsOnHalls = ShowOnHall::availableForMovie($movie->id)->get();
+
+        foreach ( $ShowsOnHalls as $ShowOnHall ) {
+
+            
+            if ( in_array($ShowOnHall->id, $showed_on)) {
+
+                $ShowOnHall->movie()->associate($movie);
+
+            }elseif( $ShowOnHall->movie_id == $movie->id ) {
+
+                $ShowOnHall->movie()->dissociate();
+            }
+
+            $ShowOnHall->save();
+
+        }
+        
         return back();
     }
 

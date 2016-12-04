@@ -18,7 +18,7 @@ class ShowsController extends Controller
     public function index()
     {
         $shows = Show::all();
-
+        
         return view('shows.index', compact('shows'));
     }
 
@@ -65,7 +65,6 @@ class ShowsController extends Controller
     public function show(Show $show)
     {
         $show->load('halls');
-        return $show;
         return view('shows.single', compact('show'));
     }
 

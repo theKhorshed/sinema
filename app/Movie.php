@@ -10,7 +10,7 @@ class Movie extends Model
 {
     protected $fillable = ['title', 'description', 'director_name'];
 
-    public function halls()
+    public function showedOn()
     {
     	return $this->hasMany(ShowOnHall::class);
     }

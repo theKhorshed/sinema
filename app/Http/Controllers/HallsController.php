@@ -64,7 +64,6 @@ class HallsController extends Controller
     public function show(Hall $hall)
     {
         $hall->load('shows');
-        return $hall;
         return view('halls.single', compact('hall'));
     }
 

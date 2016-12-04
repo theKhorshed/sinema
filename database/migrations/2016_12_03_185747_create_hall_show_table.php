@@ -14,13 +14,22 @@ class CreateHallShowTable extends Migration
     public function up()
     {
         Schema::create('hall_show', function (Blueprint $table) {
+            $table->increments('id');
             $table->integer('hall_id');
             $table->integer('show_id');
             $table->integer('movie_id')->nullable();
-            $table->primary(['hall_id', 'show_id']);
-            $table->foreign('movie_id')
-              ->references('id')->on('movies')
+
+            $table->foreign('hall_id')
+              ->references('id')->on('halls')
               ->onDelete('cascade');
+
+            $table->foreign('show_id')
+              ->references('id')->on('shows')
+              ->onDelete('cascade');
+
+            $table->foreign('movie_id')
+              ->references('id')->on('movies');
+
             $table->timestamps();
         });
     }

@@ -19,7 +19,24 @@
 </div>
 
 <div class="form-group">
-	{!! Form::label('halls', 'Halls to be showed:') !!}
-	{!! Form::select('halls[]', $halls, null, ['class' => 'form-control', 'multiple' => true]); !!}
-	{!! showMessageIfError($errors, 'halls') !!}
+	<h4>Select Hall and Show Time:</h4>
+
+	@if( count($ShowsOnHalls) > 0 )
+
+	@foreach($ShowsOnHalls as $showOnHall)
+
+		<div class="checkbox">
+			<label>
+			  <input type="checkbox" name="showed_on[]" value="{{$showOnHall['id']}}" {{$showOnHall['checked']}}>
+			  <p>{{$showOnHall['title']}} <span>({{$showOnHall['time']}})</span></p>
+			</label>
+		</div>
+		
+	@endforeach
+
+	@else
+
+		<h3>Sorry, No available hall and show time currently!</h3>
+
+	@endif
 </div>
