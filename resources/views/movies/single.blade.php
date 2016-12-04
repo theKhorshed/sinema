@@ -18,6 +18,6 @@
 		@endforeach
 	</ul>
 
-	<a class="btn btn-primary" href="{{ route('movies.edit', ['movie' => $movie->id]) }}">Edit Movie</a>
+	<a class="btn btn-primary pull-left" href="{{ route('movies.edit', ['movie' => $movie->id]) }}">Edit Movie</a>
 			
 @stop
