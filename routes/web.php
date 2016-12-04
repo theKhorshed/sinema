@@ -21,6 +21,8 @@ Route::get('/home', 'HomeController@index');
 
 
 Route::group(['prefix' => 'admin'], function () {
+	
+	Route::get('dashboard', 'PagesController@dashboard');
     
     Route::resource('movies', 'MoviesController');
     Route::resource('halls', 'HallsController');
