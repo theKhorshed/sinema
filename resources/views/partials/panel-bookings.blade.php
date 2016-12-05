@@ -6,6 +6,10 @@
             <th>Hall</th>
             <th>Show</th>
             <th>Price</th>
+
+            @can('manage')
+              <th>User</th>
+            @endcan
         </tr>
     </thead>
 
@@ -30,6 +34,9 @@
                 <td>
                     ${{ $booking->price ? $booking->price: 0 }}
                 </td>
+                @can('manage')
+                  <td>{{ $booking->user->name }} <i>({{ $booking->user->email }})</i></td>
+                @endcan
             </tr>
         @endforeach
 

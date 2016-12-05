@@ -8,6 +8,7 @@ use App\Booking;
 use App\Movie;
 use App\ShowOnHall;
 use Auth;
+use Gate;
 
 class BookingsController extends Controller
 {
@@ -28,7 +29,12 @@ class BookingsController extends Controller
      */
     public function index()
     {
-        $bookings = Booking::with('user', 'movie', 'hall_show.hall', 'hall_show.show')->get();
+        if( Gate::allows('manage') ){
+            $bookings = Booking::with('user', 'movie', 'hall_show.hall', 'hall_show.show')->get();
+        }else{
+            $bookings = Auth::user()->bookings;
+            $bookings->load('movie', 'hall_show.hall', 'hall_show.show');
+        }
         return view('bookings', compact('bookings'));
     }
 
