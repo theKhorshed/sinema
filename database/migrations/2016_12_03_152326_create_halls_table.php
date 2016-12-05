@@ -17,6 +17,7 @@ class CreateHallsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->integer('seats');
+            $table->float('price');
             $table->timestamps();
         });
     }

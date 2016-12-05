@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Hall extends Model
 {
-    protected $fillable = ['title', 'seats'];
+    protected $fillable = ['title', 'seats', 'price'];
 
     public function shows()
     {

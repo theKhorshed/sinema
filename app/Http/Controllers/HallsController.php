@@ -42,7 +42,8 @@ class HallsController extends Controller
     {
         $this->validate($request, [
             'title' => 'required',
-            'seats' => 'required'
+            'seats' => 'required',
+            'price' => 'required'
         ]);
 
         $hall  = Hall::create($request->all());
@@ -89,7 +90,8 @@ class HallsController extends Controller
     {
         $this->validate($request, [
             'title' => 'required',
-            'seats' => 'required'
+            'seats' => 'required',
+            'price' => 'required'
         ]);
 
         $hall->update($request->all());
