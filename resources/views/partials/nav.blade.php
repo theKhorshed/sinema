@@ -22,6 +22,7 @@
                 <li><a href="{{ route('showtimes') }}">Show Times</a></li>
                 <li><a href="{{ route('ticket') }}">Buy Ticket</a></li>
                 <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ route('bookings.index') }}">Bookings</a></li>
                 <li><a href="{{ route('movies.index') }}">Movies</a></li>
                 <li><a href="{{ route('shows.index') }}">Shows</a></li>
                 <li><a href="{{ route('halls.index') }}">Halls</a></li>

@@ -22,7 +22,7 @@
                           <select id="show_time" class="form-control" v-model="show_time">
                             <option value="0" disabled="true">Select</option>
 
-                            <option v-for="show in shows">
+                            <option v-for="show in shows" v-bind:value="show.id">
                                 {{show.hall.title}} - {{show.show.title}} - {{show.show.time}}
                             </option>
                           </select>
@@ -43,6 +43,8 @@
                           <label for="date">Choose Date): </label>
                           <input type="date" name="date" id="date" v-model="date">
                         </div>
+
+                        <div class="price"><h4>Price: ${{seat * 10}}</h4></div>
 
                         <button class="btn btn-success" @click="bookTicket">Conrifm</button>
                     </div>
@@ -81,17 +83,22 @@
 
             bookData(){
                 return {
-                    movie_id: this.movie,
-                    show_time : this.show_time,
+                    movie: this.movie,
+                    show : this.show_time,
                     seat : this.seat,
                     date : this.date,
+                    price : this.seat * 10,
                 }
             }
         },
 
         methods: {
             bookTicket(){
-
+              this.$http.post('/bookings', this.bookData).then((response) => {
+                console.log(response.body);
+              }, (response) => {
+                console.log('an error occured');
+              });
             }
         },
 

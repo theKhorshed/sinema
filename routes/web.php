@@ -18,12 +18,14 @@ Route::get('ticket', 'PagesController@ticket')->name('ticket');
 Auth::routes();
 
 Route::group(['prefix' => 'admin'], function () {
-	
+
 	Route::get('/', 'PagesController@dashboard')->name('dashboard');
 	Route::get('dashboard', 'PagesController@dashboard')->name('dashboard');
-    
+
     Route::resource('movies', 'MoviesController');
     Route::resource('halls', 'HallsController');
     Route::resource('shows', 'ShowsController');
 
 });
+
+Route::resource('bookings', 'BookingsController');

@@ -34,6 +34,11 @@ class ShowOnHall extends Model
         return $this->belongsTo(Show::class);
     }
 
+    public function bookings()
+    {
+      return $this->hasMany('App\Booking');
+    }
+
     /**
      * Scope a query to only include available hall and show.
      *

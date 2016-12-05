@@ -14,4 +14,9 @@ class Movie extends Model
     {
     	return $this->hasMany(ShowOnHall::class);
     }
+
+    public function bookings()
+    {
+      return $this->hasMany('App\Booking');
+    }
 }

@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Show;
+use App\Booking;
+use App\Movie;
+use App\ShowOnHall;
+use Auth;
 
-use App\Hall;
-
-class ShowsController extends Controller
+class BookingsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +18,8 @@ class ShowsController extends Controller
      */
     public function index()
     {
-        $shows = Show::all();
-
-        return view('shows.index', compact('shows'));
+        $bookings = Booking::with('user', 'movie', 'hall_show.hall', 'hall_show.show')->get();
+        return view('bookings', compact('bookings'));
     }
 
     /**
@@ -29,7 +29,7 @@ class ShowsController extends Controller
      */
     public function create()
     {
-        return view('shows.create');
+        //
     }
 
     /**
@@ -40,20 +40,29 @@ class ShowsController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'title' => 'required',
-            'time'  => 'required',
-        ]);
+      $user = Auth::user();
 
-        $show  = Show::create($request->all());
-        $halls = Hall::pluck('id');
+      $this->validate($request, [
+        'movie' => 'required',
+        'seat'  => 'required',
+        'show'  => 'required',
+        'date'  => 'required',
+        'price' => 'required',
+      ]);
 
-        foreach ($halls as $hall) {
-            $show->halls()->attach($hall);
-        }
+      $booking    = new Booking;
+      $movie      = Movie::findOrFail( $request->input('movie') );
+      $showOnHall = ShowOnHall::findOrFail( $request->input('show') );
 
+      $booking->seat  = (int) $request->input('seat');
+      $booking->price = (int) $request->input('price');
+      $booking->date  = $request->input('date');
 
-        return redirect()->route('shows.index');
+      $booking->movie_id     = (int) $movie->id;
+      $booking->user_id      = (int) $user->id;
+      $booking->hall_show_id = (int) $showOnHall->id;
+
+      $booking->save();
     }
 
     /**
@@ -62,10 +71,9 @@ class ShowsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Show $show)
+    public function show($id)
     {
-        $show->load('halls');
-        return view('shows.single', compact('show'));
+        //
     }
 
     /**
@@ -74,9 +82,9 @@ class ShowsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Show $show)
+    public function edit($id)
     {
-        return view('shows.edit', compact('show'));
+        //
     }
 
     /**
@@ -86,16 +94,9 @@ class ShowsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Show $show)
+    public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'title' => 'required',
-            'time'  => 'required',
-        ]);
-
-        $show->update($request->all());
-
-        return back();
+        //
     }
 
     /**
@@ -104,10 +105,8 @@ class ShowsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Show $show)
+    public function destroy($id)
     {
-        $show->delete();
-
-        return back();
+        //
     }
 }
