@@ -28,3 +28,8 @@ table form{
     text-align: center;
     background-color: #2a2730;
 }
+
+.errors p,
+.success p {
+  padding: 15px;
+}

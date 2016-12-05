@@ -10,6 +10,7 @@
                           <label for="movie">Select Movie: </label>
 
                           <select id="movie" class="form-control" v-model="movie">
+                            <option value="" disabled="true">Select</option>
                             <option v-for="movie in movies" v-bind:value="movie.id">
                                 {{movie.title}}
                             </option>
@@ -20,7 +21,7 @@
                           <label for="show_time">Choose Show Time: </label>
 
                           <select id="show_time" class="form-control" v-model="show_time">
-                            <option value="0" disabled="true">Select</option>
+                            <option value="" disabled="true">Select</option>
 
                             <option v-for="show in shows" v-bind:value="show.id">
                                 {{show.hall.title}} - {{show.show.title}} - {{show.show.time}}
@@ -32,6 +33,7 @@
                           <label for="seat">Choose Seat (Max 4): </label>
 
                           <select id="seat" class="form-control" v-model="seat">
+                            <option value="" disabled="true">Select</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -45,6 +47,14 @@
                         </div>
 
                         <div class="price"><h4>Price: ${{seat * 10}}</h4></div>
+
+                        <div class="errors" v-if="errors">
+                            <p class="bg-danger" v-for="error in errors">{{error[0]}}</p>
+                        </div>
+
+                        <div class="success" v-if="success">
+                            <p class="bg-success">{{success}}</p>
+                        </div>
 
                         <button class="btn btn-success" @click="bookTicket">Conrifm</button>
                     </div>
@@ -68,7 +78,15 @@
                 show_time: 0,
                 seat: 0,
                 date: '',
-                bookData: {}
+                bookData: {
+                    movie: false,
+                    show : false,
+                    seat : false,
+                    date : '',
+                    price : 0,
+                },
+                errors: {},
+                success: ''
             }
         },
 
@@ -95,9 +113,11 @@
         methods: {
             bookTicket(){
               this.$http.post('/bookings', this.bookData).then((response) => {
-                console.log(response.body);
+                this.errors = {};
+                this.success = response.body;
               }, (response) => {
-                console.log('an error occured');
+                this.errors = response.body;
+                console.log(response);
               });
             }
         },

@@ -58,13 +58,19 @@ class BookingsController extends Controller
     {
       $user = Auth::user();
 
+      $messages = [
+        'seat'  => 'Invalid ',
+        'show'  => 'Invalid ',
+        'movie' => 'Invalid Movie!',
+      ];
+
       $this->validate($request, [
-        'movie' => 'required',
-        'seat'  => 'required',
-        'show'  => 'required',
+        'movie' => 'required|integer|min:1',
+        'seat'  => 'required|integer|min:1',
+        'show'  => 'required|integer|min:1',
         'date'  => 'required',
-        'price' => 'required',
-      ]);
+        'price' => 'required|integer|min:10',
+      ], $messages);
 
       $booking    = new Booking;
       $movie      = Movie::findOrFail( $request->input('movie') );
@@ -79,6 +85,8 @@ class BookingsController extends Controller
       $booking->hall_show_id = (int) $showOnHall->id;
 
       $booking->save();
+
+      return "You've booked successfully!";
     }
 
     /**
