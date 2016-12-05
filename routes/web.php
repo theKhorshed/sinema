@@ -13,18 +13,18 @@
 
 Route::get('/', 'PagesController@home')->name('home');
 Route::get('showtimes', 'PagesController@showTimes')->name('showtimes');
-Route::get('ticket', 'PagesController@ticket')->name('ticket');
+Route::get('ticket', 'PagesController@ticket')->name('ticket')->middleware('auth');;
 
 Auth::routes();
 
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
 	Route::get('/', 'PagesController@dashboard')->name('dashboard');
 	Route::get('dashboard', 'PagesController@dashboard')->name('dashboard');
 
-    Route::resource('movies', 'MoviesController');
-    Route::resource('halls', 'HallsController');
-    Route::resource('shows', 'ShowsController');
+  Route::resource('movies', 'MoviesController');
+  Route::resource('halls', 'HallsController');
+  Route::resource('shows', 'ShowsController');
 
 });
 

@@ -54,6 +54,9 @@ class PagesController extends Controller
 	 **/
     public function dashboard()
     {
+
+      $this->authorize('manage');
+
   		$movies   = Movie::all();
   		$shows    = Show::all();
   		$halls    = Hall::all();

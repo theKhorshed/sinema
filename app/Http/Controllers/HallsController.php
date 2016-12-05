@@ -11,6 +11,14 @@ use App\Show;
 
 class HallsController extends Controller
 {
+    public function __construct()
+    {
+      $this->middleware(function ($request, $next) {
+          $this->authorize('manage');
+          return $next($request);
+      });
+    }
+
     /**
      * Display a listing of the resource.
      *

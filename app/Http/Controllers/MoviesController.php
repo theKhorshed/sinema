@@ -12,6 +12,14 @@ use App\ShowOnHall;
 
 class MoviesController extends Controller
 {
+    public function __construct()
+    {
+      $this->middleware(function ($request, $next) {
+          $this->authorize('manage');
+          return $next($request);
+      });
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -33,7 +41,7 @@ class MoviesController extends Controller
         $ShowsOnHalls = ShowOnHall::available()->with('show', 'hall', 'movie')->get();
 
         $ShowsOnHalls = $ShowsOnHalls->map(function ($item, $key) {
-            return [ 
+            return [
                 'id'       => $item->id,
                 'title'    => $item->hall->title . ' - ' . $item->show->title,
                 'time'     => $item->show->time,
@@ -96,7 +104,7 @@ class MoviesController extends Controller
         $ShowsOnHalls = ShowOnHall::availableForMovie( $movie->id )->with('show', 'hall', 'movie')->get();
 
         $ShowsOnHalls = $ShowsOnHalls->map(function ($item, $key) {
-            return [ 
+            return [
                 'id'       => $item->id,
                 'title'    => $item->hall->title . ' - ' . $item->show->title,
                 'time'     => $item->show->time,
@@ -122,7 +130,7 @@ class MoviesController extends Controller
             'description'   => 'required',
             'director_name' => 'required',
         ]);
-        
+
         $movie->update($request->all());
 
         $showed_on = $request->input('showed_on');
@@ -131,7 +139,7 @@ class MoviesController extends Controller
 
         foreach ( $ShowsOnHalls as $ShowOnHall ) {
 
-            
+
             if ( in_array($ShowOnHall->id, $showed_on)) {
 
                 $ShowOnHall->movie()->associate($movie);
@@ -144,7 +152,7 @@ class MoviesController extends Controller
             $ShowOnHall->save();
 
         }
-        
+
         return back();
     }
 
